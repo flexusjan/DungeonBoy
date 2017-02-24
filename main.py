@@ -1,16 +1,10 @@
 from gamestateInit import GamestateInit
 from gamestatehandler import Gamestatehandler
 
+gsh = Gamestatehandler()
+gsh.push_state(GamestateInit())
 
-def main():
-    gsh = Gamestatehandler()
-    gsh.push_state(GamestateInit())
+while gsh.update_state():
+    pass
 
-    while gsh.update_state():
-        pass
-
-    gsh.close_all()
-
-
-if __name__ == '__main__':
-    main()
+gsh.close_all()

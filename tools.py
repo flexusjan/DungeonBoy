@@ -1,6 +1,6 @@
 import pygame
-from staticsprite import Staticsprite
 import tmx
+from sprites import Staticsprite
 
 
 # object data from map files is stored here
@@ -34,7 +34,7 @@ def load_map(filename):
     return map_data
 
 
-# load tmx file and generate sprites
+# load tmx file and generate sprites TODO: read all .tmx properties
 def load_tmx_map(filename, tilesize=32):
     # load tmx file
     tilemap = tmx.TileMap.load(filename)

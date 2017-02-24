@@ -1,6 +1,5 @@
 from gamestate import *
 from spritehandler import Spritehandler
-from staticsprite import Staticsprite
 import tools
 import os
 
@@ -13,7 +12,7 @@ class GamestateLvl01(Gamestate):
     def init(self, gsh):
         sprites = tools.load_tmx_map(os.path.join("media", "sprites", "static", "lvl01.tmx"), 48)
         self.spritehandler.add(True, *sprites)
-        #gsh.offset_x, gsh.offset_y = -800, -800
+        # gsh.offset_x, gsh.offset_y = -800, -800
 
     def update(self, gsh):
         for event in gsh.events:
@@ -22,8 +21,8 @@ class GamestateLvl01(Gamestate):
                 gsh.close_all()
                 return
 
-        #gsh.offset_x += 1
-        #gsh.offset_y += 1
+        # gsh.offset_x += 1
+        # gsh.offset_y += 1
         gsh.screen.fill((0, 0, 0))
         self.spritehandler.update()
         self.spritehandler.draw(gsh.screen, (gsh.offset_x, gsh.offset_y))

@@ -13,6 +13,10 @@ class Spritehandler:
     - can handle many sprites
     - you can change sprite's layer without refill the group
     - can be optimized for non-moving sprites
+
+    Args:
+        segment_size: Set the size of the segements, required for faster collision detection.
+            Default is (512, 512).
     """
 
     # helper class, stores list of sprites and a rect.
@@ -22,36 +26,11 @@ class Spritehandler:
             self.sprites = []
 
     def __init__(self, segment_size=(512, 512)):
-        """Initialize Spritehandler.
-
-        Args:
-            segment_size: Set the size of the segements, required for faster collision detection.
-                Default is (512, 512).
-        """
         self._sprites = []
         self._static_sprites = []
         self._segments = {}
         self._static_segments = {}
         self._segment_size = segment_size
-
-    def add(self, static, *sprites):
-        """Adds any number of pygame sprite like objects to the Spritehandler.
-
-        Args:
-            static: if True: Sprites shouldn't move. And their update() method will not be called.
-                if False: for moving and animated sprites (may be slower).
-            sprites: pygame sprite like objects.
-        """
-        if static:
-            for sprite in sprites:
-                self._static_sprites.append(sprite)
-            self._static_sprites.sort(key=lambda x: x.layer)
-            self._make_segments(self._static_segments, self._static_sprites)
-        else:
-            for sprite in sprites:
-                self._sprites.append(sprite)
-            self._sprites.sort(key=lambda x: x.layer)
-            self._make_segments(self._segments, self._sprites)
 
     def _make_segments(self, segments, sprites):
         # make a big rect, contains all sprites.
@@ -76,6 +55,25 @@ class Spritehandler:
             x = sprite.rect.x - sprite.rect.x % width
             y = sprite.rect.y - sprite.rect.y % height
             segments[x, y].sprites.append(sprite)
+
+    def add(self, static, *sprites):
+        """Adds any number of pygame sprite like objects to the Spritehandler.
+
+        Args:
+            static: if True: Sprites shouldn't move. And their update() method will not be called.
+                if False: for moving and animated sprites (may be slower).
+            sprites: pygame sprite like objects.
+        """
+        if static:
+            for sprite in sprites:
+                self._static_sprites.append(sprite)
+            self._static_sprites.sort(key=lambda x: x._layer)
+            self._make_segments(self._static_segments, self._static_sprites)
+        else:
+            for sprite in sprites:
+                self._sprites.append(sprite)
+            self._sprites.sort(key=lambda x: x._layer)
+            self._make_segments(self._segments, self._sprites)
 
     def get(self, rect):
         """Returns all sprites in the given rect.
@@ -126,7 +124,7 @@ class Spritehandler:
         offset_x = int(offset[0])
         offset_y = int(offset[1])
         rect = pygame.Rect(offset, surface.get_size())
-        for sprite in sorted(self.get(rect), key=lambda s: s.layer):
+        for sprite in sorted(self.get(rect), key=lambda s: s._layer):
             if rect.colliderect(sprite.rect):
                 sprite.rect.x -= offset_x
                 sprite.rect.y -= offset_y
