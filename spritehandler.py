@@ -107,7 +107,7 @@ class Spritehandler:
         for sprite in self._sprites:
             sprite.update()
 
-        # remake segments, because some sprites have been moved.
+        # rebuild segments, because some sprites have been moved.
         if self._segments:
             self._make_segments(self._segments, self._sprites)
 
@@ -120,10 +120,12 @@ class Spritehandler:
             surface: A pygame.Surface as render target.
             offset: (int, int) Sets the offset for the viewport.
         """
+        # make screen size rect with offset
+        rect = pygame.Rect(offset, surface.get_size())
+
         # sort sprites (layer-based), apply offset, render image, remove offset
         offset_x = int(offset[0])
         offset_y = int(offset[1])
-        rect = pygame.Rect(offset, surface.get_size())
         for sprite in sorted(self.get(rect), key=lambda s: s._layer):
             if rect.colliderect(sprite.rect):
                 sprite.rect.x -= offset_x
@@ -137,31 +139,29 @@ class Spritehandler:
 
         Args:
             sprites: pygame sprite like objects.
-
-        Returns:
-            True if successful, False if a sprite can't be removed.
         """
-        result = True
         for sprite in sprites:
+            # remove from _sprites
             if sprite in self._sprites:
                 self._sprites.remove(sprite)
+
+                # remove from _segments
                 for segment in self._segments.itervalues():
                     if sprite in segment.sprites:
                         segment.sprites.remove(sprite)
-                    else:
-                        result = False
-            elif sprite in self._static_sprites:
+
+            # remove from _static_srpites
+            if sprite in self._static_sprites:
                 self._static_sprites.remove(sprite)
+
+                # remove from _static_segments
                 for segment in self._static_segments.itervalues():
                     if sprite in segment.sprites:
                         segment.sprites.remove(sprite)
-                    else:
-                        result = False
-            else:
-                result = False
+
+        # rebuild segments
         self._make_segments(self._segments, self._sprites)
         self._make_segments(self._static_segments, self._static_sprites)
-        return result
 
     def empty(self):
         """Delete all sprites from Spritehandler"""
