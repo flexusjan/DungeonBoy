@@ -19,7 +19,7 @@ But the performance was so bad, I switched to pygame on PC.
 
 ## Credits
 
-Big Thanks to http://www.lostgarden.com for the wonderfull sprites
+Big Thanks to http://www.lostgarden.com for the wonderful sprites.
 
 ## License
 
