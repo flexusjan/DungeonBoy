@@ -2,9 +2,7 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff:
-.idea/**/workspace.xml
 .idea/**/tasks.xml
-.idea/dictionaries
 
 # Sensitive or high-churn files:
 .idea/**/dataSources/
@@ -63,3 +61,18 @@ $RECYCLE.BIN/
 *.lnk
 
 
+.idea/
+gamestate.pyc
+gamestate.pyo
+gamestateInit.pyc
+gamestateInit.pyo
+gamestateLvl01.pyc
+gamestateLvl01.pyo
+gamestatehandler.pyc
+gamestatehandler.pyo
+main.pyo
+spritehandler.pyc
+spritehandler.pyo
+sprites.pyc
+tools.pyc
+tools.pyo
