@@ -48,7 +48,10 @@ def load_tmx_map(filename, tilesize=32):
         for y in range(image.get_height() / tileset.tileheight):
             for x in range(image.get_width() / tileset.tilewidth):
                 rect = pygame.Rect(x * tileset.tilewidth, y * tileset.tileheight, tileset.tilewidth, tileset.tileheight)
-                gids[gid] = pygame.transform.scale(image.subsurface(rect), (tilesize, tilesize))
+                if tilesize == tileset.tilewidth and tilesize == tileset.tileheight:
+                    gids[gid] = image.subsurface(rect)
+                else:
+                    gids[gid] = pygame.transform.smoothscale(image.subsurface(rect), (tilesize, tilesize))
                 gid += 1
 
     # create list of sprites based on layer & gids data
