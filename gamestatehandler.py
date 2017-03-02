@@ -1,21 +1,20 @@
 class Gamestatehandler:
     def __init__(self):
         self.states = []
-        self.events = []
 
     def init_state(self):
-        if len(self.states) > 0:
+        if self.states:
             self.states[-1].init(self)
 
     def update_state(self):
-        if len(self.states) > 0:
+        if self.states:
             self.states[-1].update(self)
             return True
         else:
             return False
 
     def close_state(self):
-        if len(self.states) > 0:
+        if self.states:
             self.states[-1].close(self)
 
     def close_all(self):
