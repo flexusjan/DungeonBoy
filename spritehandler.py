@@ -31,6 +31,7 @@ class Spritehandler:
         self._segments = {}
         self._static_segments = {}
         self._segment_size = segment_size
+        self._time = pygame.time.get_ticks()
 
     def _make_segments(self, segments, sprites):
         # make a big rect, contains all sprites.
@@ -104,8 +105,11 @@ class Spritehandler:
 
     def update(self):
         """Calls the update method for every non-static sprite"""
+
+        time_delta = pygame.time.get_ticks() - self._time
+        self._time = pygame.time.get_ticks()
         for sprite in self._sprites:
-            sprite.update()
+            sprite.update(time_delta)
 
         # rebuild segments, because some sprites have been moved.
         if self._segments:
