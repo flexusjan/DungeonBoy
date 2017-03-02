@@ -2,7 +2,6 @@ class Gamestatehandler:
     def __init__(self):
         self.states = []
         self.events = []
-        self.is_sleeping = False
 
     def init_state(self):
         if len(self.states) > 0:
@@ -10,17 +9,10 @@ class Gamestatehandler:
 
     def update_state(self):
         if len(self.states) > 0:
-            self.events = self.states[-1].handle_events(self)
+            self.states[-1].update(self)
+            return True
         else:
             return False
-
-        if len(self.states) > 0:
-            if not self.is_sleeping:
-                self.states[-1].update(self)
-        else:
-            return False
-
-        return True
 
     def close_state(self):
         if len(self.states) > 0:
