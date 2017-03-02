@@ -1,6 +1,6 @@
+from sprites import *
 import pygame
 import tmx
-from sprites import Staticsprite
 
 
 # object data from map files is stored here
@@ -71,3 +71,11 @@ def load_tmx_map(filename, tilesize=32):
         layer_id += 10
 
     return sprites
+
+
+def load_animation(image, frame_pos, frame_size, frame_count, frame_durations, index=0, is_looping=True):
+    frames = []
+    for x, duration in zip(range(frame_pos[0], frame_count * frame_size[0], frame_size[0]), frame_durations):
+        frame = Frame(image.subsurface((x, frame_pos[1], frame_size[0], frame_size[1])).convert_alpha(), duration)
+        frames.append(frame)
+    return Animation(frames, index, is_looping)
