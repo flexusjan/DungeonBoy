@@ -7,4 +7,4 @@ gsh.push_state(GamestateInit())
 while gsh.update_state():
     pass
 
-gsh.close_all()
+gsh.close()
