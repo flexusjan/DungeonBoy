@@ -9,7 +9,7 @@ def func_dungeonboy(self, gsh):
     else:
         fim = gsh.time_delta / 1000.0
 
-    speed = 100.0
+    speed = self.speed
     is_moving = False
     is_attacking = False
     x, y = 0, 0
@@ -46,6 +46,6 @@ def func_dungeonboy(self, gsh):
     if is_attacking:
         self.change_animation('Attack' + self.direction, True)
     elif is_moving:
-        self.change_animation('Walk' + self.direction, True)
+        self.change_animation('Walk' + self.direction, 'Walk' in self.animation_name)
     else:
-        self.change_animation('Idle' + self.direction, False)
+        self.change_animation('Idle' + self.direction, 'Walk' in self.animation_name)
