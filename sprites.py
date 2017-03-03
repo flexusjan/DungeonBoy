@@ -44,7 +44,6 @@ class Sprite(pygame.sprite.Sprite):
         self.rect.center = self.x, self.y
 
 
-# TODO: make Animatedsprite class
 class Animatedsprite(pygame.sprite.Sprite):
     def __init__(self, animations, animation_name, func, x, y, layer, has_collision):
         pygame.sprite.Sprite.__init__(self)
