@@ -17,6 +17,9 @@ class GamestateInit(Gamestate):
         gsh.offset_x, gsh.offset_y = 0, 0
         gsh.clock = pygame.time.Clock()
         gsh.sprites = {}
+        gsh.events = []
+        gsh.pressed_keys = None
+        gsh.time = pygame.time.get_ticks()
         load_dungeonboy(gsh)
         gsh.push_state(GamestateLvl01())
 
@@ -35,16 +38,23 @@ def load_dungeonboy(gsh):
     animations['SpellcastLeft'] = load_animation(image, (0, 64), (64, 64), 7, [150] * 7)
     animations['SpellcastDown'] = load_animation(image, (0, 128), (64, 64), 7, [150] * 7)
     animations['SpellcastRight'] = load_animation(image, (0, 192), (64, 64), 7, [150] * 7)
+
+    animations['IdleUp'] = load_animation(image, (0, 512), (64, 64), 1, [0])
+    animations['IdleLeft'] = load_animation(image, (0, 576), (64, 64), 1, [0])
+    animations['IdleDown'] = load_animation(image, (0, 640), (64, 64), 1, [0])
+    animations['IdleRight'] = load_animation(image, (0, 704), (64, 64), 1, [0])
+
     animations['WalkUp'] = load_animation(image, (64, 512), (64, 64), 8, [80] * 8)
     animations['WalkLeft'] = load_animation(image, (64, 576), (64, 64), 8, [80] * 8)
     animations['WalkDown'] = load_animation(image, (64, 640), (64, 64), 8, [80] * 8)
     animations['WalkRight'] = load_animation(image, (64, 704), (64, 64), 8, [80] * 8)
     animations['Hurt'] = load_animation(image, (0, 1280), (64, 64), 6, [100] * 6, 0, False)
-    animations['AttackUp'] = load_animation(image, (0, 1344), (192, 192), 6, [100] * 6)
-    animations['AttackLeft'] = load_animation(image, (0, 1536), (192, 192), 6, [100] * 6)
-    animations['AttackDown'] = load_animation(image, (0, 1728), (192, 192), 6, [100] * 6)
-    animations['AttackRight'] = load_animation(image, (0, 1920), (192, 192), 6, [100] * 6)
+    animations['AttackUp'] = load_animation(image, (0, 1344), (192, 192), 6, [75] * 6)
+    animations['AttackLeft'] = load_animation(image, (0, 1536), (192, 192), 6, [75] * 6)
+    animations['AttackDown'] = load_animation(image, (0, 1728), (192, 192), 6, [75] * 6)
+    animations['AttackRight'] = load_animation(image, (0, 1920), (192, 192), 6, [75] * 6)
 
-    gsh.sprites['DungeonBoy'] = Animatedsprite(animations, 'AttackRight', func_dungeonboy, 1500, 1500, 50, True)
+    gsh.sprites['DungeonBoy'] = Animatedsprite(animations, 'IdleDown', func_dungeonboy, 1500, 1500, 50, True)
+    gsh.sprites['DungeonBoy'].direction = 'Down'
 
 
