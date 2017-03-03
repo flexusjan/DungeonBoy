@@ -63,10 +63,11 @@ def load_tmx_map(filename, tilesize=32):
                 gid = layer.tiles[y * tilemap.width + x].gid
                 if gid > 0:
                     sprite = Staticsprite(gids[gid], x * tilesize + tilesize/2, y * tilesize + tilesize/2, layer_id, False)
-                    if layer_id == 0:  # lowest layer don't need alpha
+                    if layer_id == 0:  # lowest layer don't need colorkey
                         sprite.image = sprite.image.convert()
                     else:
-                        sprite.image = sprite.image.convert_alpha()
+                        sprite.image = sprite.image.convert()
+                        sprite.image.set_colorkey((255, 0, 255), pygame.RLEACCEL)
                     sprites.append(sprite)
         layer_id += 10
 
@@ -76,6 +77,8 @@ def load_tmx_map(filename, tilesize=32):
 def load_animation(image, frame_pos, frame_size, frame_count, frame_durations, index=0, is_looping=True):
     frames = []
     for x, duration in zip(range(frame_pos[0], frame_count * frame_size[0], frame_size[0]), frame_durations):
-        frame = Frame(image.subsurface((x, frame_pos[1], frame_size[0], frame_size[1])).convert_alpha(), duration)
+        surface = image.subsurface((x, frame_pos[1], frame_size[0], frame_size[1])).convert()
+        surface.set_colorkey((255, 0, 255), pygame.RLEACCEL)
+        frame = Frame(surface, duration)
         frames.append(frame)
     return Animation(frames, index, is_looping)

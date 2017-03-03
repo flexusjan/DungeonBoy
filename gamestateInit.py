@@ -32,7 +32,7 @@ class GamestateInit(Gamestate):
 
 
 def load_dungeonboy(gsh):
-    image = pygame.image.load(os.path.join("media", "sprites", "animated", "dungeonboy.png"))
+    image = pygame.image.load(os.path.join("media", "sprites", "animated", "dungeonboy_2.png"))
     animations = {}
     animations['SpellcastUp'] = load_animation(image, (0, 0), (64, 64), 7, [150] * 7)
     animations['SpellcastLeft'] = load_animation(image, (0, 64), (64, 64), 7, [150] * 7)
@@ -56,5 +56,6 @@ def load_dungeonboy(gsh):
 
     gsh.sprites['DungeonBoy'] = Animatedsprite(animations, 'IdleDown', func_dungeonboy, 1500, 1500, 50, True)
     gsh.sprites['DungeonBoy'].direction = 'Down'
+    gsh.sprites['DungeonBoy'].speed = 200.0
 
 
