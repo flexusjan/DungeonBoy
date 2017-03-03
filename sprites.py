@@ -22,8 +22,7 @@ class Staticsprite(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = image
         self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.rect.center = x, y
         self._layer = layer
         self.has_collision = has_collision  # not yet implemented TODO: collision handling
 
@@ -34,13 +33,15 @@ class Sprite(pygame.sprite.Sprite):
         self.image = image
         self.func = func
         self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.rect.center = x, y
+        self.x = x
+        self.y = y
         self._layer = layer
         self.has_collision = has_collision
 
-    def update(self, time_delta=0):
-        self.func(time_delta)
+    def update(self, gsh):
+        self.func(self, gsh)
+        self.rect.center = self.x, self.y
 
 
 # TODO: make Animatedsprite class
@@ -52,21 +53,25 @@ class Animatedsprite(pygame.sprite.Sprite):
         self.func = func
         self.image = animations[animation_name].get_frame(0)
         self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.rect.center = x, y
+        self.x = x
+        self.y = y
         self._layer = layer
         self.has_collision = has_collision
 
-    def update(self, time_delta=0):
-        self.func(time_delta)
-        center = self.rect.center
-        self.image = self.animations[self.animation_name].get_frame(time_delta)
-        self.rect = self.image.get_rect()
-        self.rect.center = center
+    def update(self, gsh):
+        self.func(self, gsh)
 
-    def change_animation(self, animation_name):
-        self.reset_animation()
-        self.animation_name = animation_name
+        self.image = self.animations[self.animation_name].get_frame(gsh.time_delta)
+        self.rect = self.image.get_rect()
+        self.rect.center = self.x, self.y
+
+    def change_animation(self, animation_name, immediately=True):
+        animation = self.animations[self.animation_name]
+        if animation_name != self.animation_name and (immediately or animation.index == len(animation.frames) - 1):
+            self.reset_animation()
+            self.animation_name = animation_name
+            self.reset_animation()
 
     def reset_animation(self):
         self.animations[self.animation_name].reset()
