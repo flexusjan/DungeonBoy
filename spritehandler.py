@@ -13,10 +13,6 @@ class Spritehandler:
     - can handle many sprites
     - you can change sprite's layer without refill the group
     - can be optimized for non-moving sprites
-
-    Args:
-        segment_size: Set the size of the segements, required for faster collision detection.
-            Default is (512, 512).
     """
 
     # helper class, stores list of sprites and a rect.
@@ -26,6 +22,12 @@ class Spritehandler:
             self.sprites = []
 
     def __init__(self, segment_size=(512, 512)):
+        """Initialize the Spritehandler
+
+            Args:
+                segment_size: Set the size of the segements, required for faster collision detection.
+                Default is (512, 512).
+        """
         self._sprites = []
         self._static_sprites = []
         self._segments = {}
