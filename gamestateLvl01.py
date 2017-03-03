@@ -25,11 +25,11 @@ class GamestateLvl01(Gamestate):
         for event in pygame.event.get():
             # Escape Key
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                gsh.close_all()
+                gsh.close()
                 return
             # Exit Button
             elif event.type == pygame.QUIT:
-                gsh.close_all()
+                gsh.close()
                 return
             else:
                 gsh.events.append(event)
@@ -39,8 +39,8 @@ class GamestateLvl01(Gamestate):
         gsh.time_delta = pygame.time.get_ticks() - gsh.time
         gsh.time = pygame.time.get_ticks()
 
-        gsh.offset_x = gsh.sprites['DungeonBoy'].x - gsh.screen_w/2
-        gsh.offset_y = gsh.sprites['DungeonBoy'].y - gsh.screen_h/2
+        gsh.offset_x = gsh.sprites['DungeonBoy'].x - gsh.screen_w / 2
+        gsh.offset_y = gsh.sprites['DungeonBoy'].y - gsh.screen_h / 2
 
         gsh.screen.fill((0, 0, 0))
         self.spritehandler.update(gsh)
