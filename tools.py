@@ -62,7 +62,7 @@ def load_tmx_map(filename, tilesize=32):
             for x in range(tilemap.width):
                 gid = layer.tiles[y * tilemap.width + x].gid
                 if gid > 0:
-                    sprite = Staticsprite(gids[gid], x * tilesize, y * tilesize, layer_id, False)
+                    sprite = Staticsprite(gids[gid], x * tilesize + tilesize/2, y * tilesize + tilesize/2, layer_id, False)
                     if layer_id == 0:  # lowest layer don't need alpha
                         sprite.image = sprite.image.convert()
                     else:
